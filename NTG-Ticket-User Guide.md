@@ -11,7 +11,7 @@
 
 ---
 
-## Getting Started
+## 1Getting Started
 
 ### What is NTG-Ticket?
 A help desk system for reporting technical issues, tracking progress, and communicating with support staff.
@@ -265,5 +265,6 @@ flowchart TD
 - **Esc**: Close modals
 
 ---
+
 
 *This guide covers the main features for all user roles in the NTG-Ticket system. For additional help, contact your system administrator.*
