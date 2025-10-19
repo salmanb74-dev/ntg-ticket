@@ -11,39 +11,27 @@
 
 ---
 
-## 1Getting Started
+## Getting Started
+
+### Quick Start Guide
+1. **Login** with your email and password
+2. **Select your role** if you have multiple roles
+3. **Create a ticket** (End Users) or **view assigned tickets** (Support Staff)
+4. **Track progress** through status updates and comments
 
 ### What is NTG-Ticket?
 A help desk system for reporting technical issues, tracking progress, and communicating with support staff.
-
-### Login Process
-1. Go to the NTG-Ticket website
-2. Enter your email and password
-3. If you have multiple roles, select your active role
-4. Click "Continue"
 
 ---
 
 ## Role Overview
 
-### End User
-- **Can**: Create tickets, view own tickets, add comments, reopen closed tickets
-- **Cannot**: Assign tickets, change status (except reopen), view other users' tickets
-- **Access**: My Tickets, Reports
-
-### Support Staff
-- **Can**: View assigned tickets, update status, add comments, resolve tickets
-- **Cannot**: Assign tickets to others, view all tickets, manage users
-- **Access**: Assigned Tickets, Reports
-
-### Support Manager
-- **Can**: View all tickets, assign tickets, manage staff, view team performance
-- **Cannot**: Manage users, system settings
-- **Access**: All Tickets, Assigned Tickets, New Tickets, Reports
-
-### Administrator
-- **Can**: Everything + manage users, system settings, view all data
-- **Access**: All features + Administration panel
+| Role | Can Do | Cannot Do | Access |
+|------|--------|-----------|--------|
+| **End User** | Create tickets, view own tickets, add comments, reopen closed tickets | Assign tickets, change status (except reopen), view other users' tickets | My Tickets, Reports |
+| **Support Staff** | View assigned tickets, update status, add comments, resolve tickets | Assign tickets to others, view all tickets, manage users | Assigned Tickets, Reports |
+| **Support Manager** | View all tickets, assign tickets, manage staff, view team performance | Manage users, system settings | All Tickets, Assigned Tickets, New Tickets, Reports |
+| **Administrator** | Everything + manage users, system settings, view all data | None | All features + Administration panel |
 
 ---
 
@@ -111,7 +99,7 @@ flowchart TD
 | **IN_PROGRESS** | Yellow | Actively being worked on |
 | **ON_HOLD** | Orange | Paused (waiting for info/parts) |
 | **RESOLVED** | Gray | Fixed, waiting for confirmation |
-| **CLOSED** | Dark | Completely finished |
+| **CLOSED** | Dark Gray | Completely finished |
 | **REOPENED** | Purple | Problem came back |
 
 ### Status Flow
@@ -148,14 +136,14 @@ flowchart TD
     
     Reopened -->|Auto-assigned to Previous Staff| Open
     
-    style Start fill:#e1f5ff,stroke:#01579b,stroke-width:2px,color:#000
-    style New fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
-    style Open fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px,color:#000
-    style InProgress fill:#b3e5fc,stroke:#0277bd,stroke-width:2px,color:#000
-    style OnHold fill:#ffcc80,stroke:#ef6c00,stroke-width:2px,color:#000
-    style Resolved fill:#a5d6a7,stroke:#388e3c,stroke-width:2px,color:#000
-    style Closed fill:#90a4ae,stroke:#37474f,stroke-width:2px,color:#000
-    style Reopened fill:#ef9a9a,stroke:#c62828,stroke-width:2px,color:#000
+    style Start fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style New fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style Open fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style InProgress fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style OnHold fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style Resolved fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style Closed fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
+    style Reopened fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ### Who Can Change Status
@@ -208,56 +196,21 @@ flowchart TD
 
 ### Common Actions by Role
 
-#### End User
-- Create tickets
-- View own tickets
-- Add comments
-- Reopen closed tickets
-- Export own ticket reports
-
-#### Support Staff
-- View assigned tickets
-- Update ticket status
-- Add comments
-- Resolve tickets
-- Export assigned ticket reports
-
-#### Support Manager
-- View all tickets
-- Assign tickets
-- Manage team performance
-- Export team reports
-- View new tickets requiring assignment
-
-#### Administrator
-- All above actions
-- Manage users
-- System settings
-- View all system data
-- Export comprehensive reports
+| Role | Actions |
+|------|---------|
+| **End User** | Create tickets, View own tickets, Add comments, Reopen closed tickets, Export own ticket reports |
+| **Support Staff** | View assigned tickets, Update ticket status, Add comments, Resolve tickets, Export assigned ticket reports |
+| **Support Manager** | View all tickets, Assign tickets, Manage team performance, Export team reports, View new tickets requiring assignment |
+| **Administrator** | All above actions, Manage users, System settings, View all system data, Export comprehensive reports |
 
 ### Navigation Menu by Role
 
-#### End User
-- My Tickets
-- Reports
-
-#### Support Staff
-- Assigned Tickets
-- Reports
-
-#### Support Manager
-- All Tickets
-- Assigned Tickets
-- New Tickets
-- Reports
-
-#### Administrator
-- All Tickets
-- Assigned Tickets
-- New Tickets
-- Reports
-- Administration
+| Role | Menu Items |
+|------|------------|
+| **End User** | My Tickets, Reports |
+| **Support Staff** | Assigned Tickets, Reports |
+| **Support Manager** | All Tickets, Assigned Tickets, New Tickets, Reports |
+| **Administrator** | All Tickets, Assigned Tickets, New Tickets, Reports, Administration |
 
 ### Keyboard Shortcuts
 - **Ctrl + L**: Open chat (if available)
@@ -265,6 +218,5 @@ flowchart TD
 - **Esc**: Close modals
 
 ---
-
 
 *This guide covers the main features for all user roles in the NTG-Ticket system. For additional help, contact your system administrator.*
