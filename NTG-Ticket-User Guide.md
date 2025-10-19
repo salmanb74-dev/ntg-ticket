@@ -136,14 +136,6 @@ flowchart TD
     
     Reopened -->|Auto-assigned to Previous Staff| Open
     
-    style Start fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style New fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style Open fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style InProgress fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style OnHold fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style Resolved fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style Closed fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
-    style Reopened fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ### Who Can Change Status
@@ -220,3 +212,4 @@ flowchart TD
 ---
 
 *This guide covers the main features for all user roles in the NTG-Ticket system. For additional help, contact your system administrator.*
+
