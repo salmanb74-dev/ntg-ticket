@@ -8,10 +8,11 @@
 5. [Comments](#comments)
 6. [Custom Fields](#custom-fields)
 7. [Administration: Theme & Branding](#administration-theme--branding)
-5. [Ticket Status Guide](#ticket-status-guide)
-6. [Reports & Analytics](#reports--analytics)
-7. [Coming Soon](#coming-soon)
-7. [Quick Reference](#quick-reference)
+8. [Workflows](#workflows)
+9. [Ticket Status Guide](#ticket-status-guide)
+10. [Reports & Analytics](#reports--analytics)
+11. [Coming Soon](#coming-soon)
+12. [Quick Reference](#quick-reference)
 
 ---
 
@@ -184,6 +185,51 @@ flowchart TD
     C --> D[Save]
     D --> E[Branding Applied Site-wide]
 ```
+
+---
+
+## Workflows
+
+Workflows define the allowed ticket states and transitions for your organization.
+
+### Who Can Manage Workflows
+- **Administrator**: Create, edit, activate/deactivate, set default
+- **Support Manager**: Can view (editing may be restricted depending on your setup)
+
+### Open the Workflow Manager
+- Go to **Administration › Workflows**
+
+### Create or Edit a Workflow
+1. Click **Create Workflow** (or edit an existing one)
+2. Enter **Name** and optional **Description**
+3. Toggle **Set as Default** to make it the system default
+4. Use the **Workflow Editor** to:
+   - Add states (nodes), set labels and colors
+   - Connect states to add transitions (arrows)
+   - Click an arrow to configure allowed **Roles**, **Conditions**, and **Actions**
+5. Click **Save Workflow**
+
+#### Screen
+![Workflow Editor](docs/screens/workflow-editor.png)
+
+### Managing Workflows in the List
+- **Set as Default**: Marks a workflow used by new tickets by default
+- **Activate/Deactivate**: Control availability for assignment
+- **Edit/Delete**: Update or remove a workflow (cannot delete if in use)
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin Opens Workflows] --> B[Create or Edit]
+    B --> C[Design States & Transitions]
+    C --> D[Configure Roles/Conditions/Actions]
+    D --> E[Save]
+    E --> F[Activate &/or Set Default]
+```
+
+### Notes
+- The **default** workflow applies to new tickets unless a specific workflow is assigned by category/project (if configured).
+- Deleting a workflow that is in use by tickets is blocked; deactivate instead.
 
 ---
 
