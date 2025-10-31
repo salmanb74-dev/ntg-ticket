@@ -5,8 +5,12 @@
 2. [Role Overview](#role-overview)
 3. [Creating Tickets](#creating-tickets)
 4. [Managing Tickets](#managing-tickets)
+5. [Comments](#comments)
+6. [Custom Fields](#custom-fields)
+7. [Administration: Theme & Branding](#administration-theme--branding)
 5. [Ticket Status Guide](#ticket-status-guide)
 6. [Reports & Analytics](#reports--analytics)
+7. [Coming Soon](#coming-soon)
 7. [Quick Reference](#quick-reference)
 
 ---
@@ -52,6 +56,11 @@ A help desk system for reporting technical issues, tracking progress, and commun
 3. Add attachments (optional)
 4. Click **"Create Ticket"**
 
+> Tip: Some categories will show additional fields (see [Custom Fields](#custom-fields)).
+
+#### Screen
+![Create Ticket Form](docs/screens/create-ticket.png)
+
 ### Ticket Creation Flow
 ```mermaid
 flowchart TD
@@ -86,6 +95,95 @@ flowchart TD
 - **Search Bar**: Type keywords to find tickets
 - **Advanced Search**: More detailed filters
 - **Simple Filters**: Quick status, priority, category filters
+
+#### Screen
+![Ticket List](docs/screens/ticket-list.png)
+
+---
+
+## Comments
+
+### Adding and Managing Comments
+- Use the **Comments** panel on a ticket to add updates or ask questions.
+- Toggle **Internal** if you want the comment visible only to support staff.
+- Mention teammates with `@name` for clarity (if enabled).
+
+#### Quick Steps
+1. Open a ticket
+2. Scroll to **Comments**
+3. Type your message
+4. Optional: toggle **Internal**
+5. Click **Add Comment**
+
+#### Screen
+![Comments Panel](docs/screens/ticket-comments.png)
+
+#### Comment Lifecycle
+```mermaid
+flowchart TD
+    A[Open Ticket] --> B[Write Comment]
+    B --> C{Internal?}
+    C -- Yes --> D[Visible to Support Team]
+    C -- No --> E[Visible to Requester + Team]
+    D --> F[Saved]
+    E --> F[Saved]
+```
+
+---
+
+## Custom Fields
+
+Custom fields let administrators extend the ticket form per category (e.g., Asset Tag for Hardware).
+
+### How Users See Custom Fields
+- When you choose a **Category**, any configured custom fields appear automatically.
+- Supported types include text, number, boolean, select (varies by setup).
+
+#### Screen
+![Custom Fields on Ticket](docs/screens/custom-fields.png)
+
+### Admin: Creating Custom Fields (Summary)
+1. Go to **Administration › Custom Fields**
+2. Click **Create Field**
+3. Choose **Category** and **Field Type**
+4. Set **Label**, **Key**, and **Validation**
+5. Click **Save**
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin: Create Custom Field] --> B[Select Category]
+    B --> C[Choose Field Type]
+    C --> D[Configure Label/Key/Validation]
+    D --> E[Save]
+    E --> F[Users See Field on Ticket Form]
+```
+
+---
+
+## Administration: Theme & Branding
+
+### Theme Settings
+- Navigate to **Administration › Theme Settings**
+- Update the **Primary Color** to match your brand
+- Changes apply across headers, buttons, and highlights
+
+#### Screen
+![Theme Settings](docs/screens/theme-settings.png)
+
+### Logo & Favicon
+- In **Theme Settings**, upload your **Logo** (and optionally a **Favicon**)
+- Supported formats: PNG, JPG, SVG (recommended: transparent background)
+- After saving, the logo updates in the app header and login page
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin Opens Theme Settings] --> B[Upload Logo/Favicon]
+    B --> C[Preview]
+    C --> D[Save]
+    D --> E[Branding Applied Site-wide]
+```
 
 ---
 
@@ -176,6 +274,49 @@ flowchart TD
 3. Choose Excel format
 4. Download your report
 
+#### Screen
+![Reports Dashboard](docs/screens/reports.png)
+
+---
+
+## Coming Soon
+
+These features are in final stages and may appear in your environment shortly. Usage will be as follows:
+
+### Attachments
+- Add files to tickets via **Attachments** section
+- Supported: images, PDFs, docs (size limits may apply)
+
+```mermaid
+flowchart TD
+    A[Open Ticket Form] --> B[Click Add Attachment]
+    B --> C[Select File]
+    C --> D[Upload]
+    D --> E[Attachment Linked to Ticket]
+```
+
+### Email Notifications
+- Automatic emails for ticket created, status changes, and comments
+- Admins can adjust templates in **Administration › Email Templates**
+
+```mermaid
+flowchart TD
+    A[Trigger: Ticket/Comment/Status] --> B[Generate Email]
+    B --> C[Apply Template]
+    C --> D[Send Email to Recipients]
+```
+
+### User Signups
+- Users will be able to self-register from the **Sign In** page when enabled
+
+```mermaid
+flowchart TD
+    A[Open Sign In] --> B[Click Sign Up]
+    B --> C[Fill Details]
+    C --> D[Submit]
+    D --> E[Account Created / Awaiting Approval]
+```
+
 ---
 
 ## Quick Reference
@@ -212,4 +353,3 @@ flowchart TD
 ---
 
 *This guide covers the main features for all user roles in the NTG-Ticket system. For additional help, contact your system administrator.*
-
