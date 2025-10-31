@@ -1,256 +1,401 @@
-/*
-  Screenshot capture for NTG-Ticket staging.
-  Usage (PowerShell):
-  $env:STAGING_URL="https://your-staging-host/"; $env:ADMIN_EMAIL="admin@example.com"; $env:ADMIN_PASSWORD="password"; npm run capture:screens
+# NTG-Ticket User Guide
 
-  Outputs PNGs into docs/screens/ with filenames used by NTG-Ticket-User-Guide.md
-*/
+## Table of Contents
+1. [Getting Started](#getting-started)
+2. [Role Overview](#role-overview)
+3. [Creating Tickets](#creating-tickets)
+4. [Managing Tickets](#managing-tickets)
+5. [Comments](#comments)
+6. [Custom Fields](#custom-fields)
+7. [Administration: Theme & Branding](#administration-theme--branding)
+8. [Workflows](#workflows)
+9. [Ticket Status Guide](#ticket-status-guide)
+10. [Reports & Analytics](#reports--analytics)
+11. [Coming Soon](#coming-soon)
+12. [Quick Reference](#quick-reference)
 
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
+---
 
-async function ensureDir(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-}
+## Getting Started
 
-async function clickButtonByText(page, texts) {
-  try {
-    const handles = await page.$$('a,button');
-    for (const h of handles) {
-      const txt = (await page.evaluate(el => el.textContent || '', h)).trim().toLowerCase();
-      if (texts.some(t => txt.includes(t))) {
-        await h.click();
-        return true;
-      }
-    }
-  } catch (_) {}
-  return false;
-}
+### Quick Start Guide
+1. **Login** with your email and password
+2. **Select your role** if you have multiple roles
+3. **Create a ticket** (End Users) or **view assigned tickets** (Support Staff)
+4. **Track progress** through status updates and comments
 
-async function bypassNgrokInterstitial(page) {
-  try {
-    // Quick content sniff
-    const content = (await page.content()).toLowerCase();
-    const looksLikeNgrokWarning = content.includes('you should only visit sites you trust') || content.includes('visit site');
-    if (looksLikeNgrokWarning) {
-      // Try obvious controls
-      const clickedKnown = await page.$('#visit-site')
-        .then(async el => { if (el) { await el.click(); return true; } return false; })
-        .catch(() => false);
-      if (!clickedKnown) {
-        const clickedText = await clickButtonByText(page, ['visit site', 'visit website', 'continue', 'proceed']);
-        if (!clickedText) {
-          // As a last resort, click the first primary-looking button
-          const anyButton = await page.$('a,button');
-          if (anyButton) await anyButton.click();
-        }
-      }
-      await new Promise(r => setTimeout(r, 1200));
-    }
-  } catch (_) {}
-}
+### What is NTG-Ticket?
+A help desk system for reporting technical issues, tracking progress, and communicating with support staff.
 
-async function saveShot(page, filePath, opts = {}) {
-  await page.screenshot({ path: filePath, fullPage: false, ...opts });
-  // eslint-disable-next-line no-console
-  console.log(`Saved: ${filePath}`);
-}
+---
 
-async function login(page, baseUrl, email, password) {
-  // Navigate to root; if it redirects to login, handle it. Otherwise go explicitly.
-  await page.goto(baseUrl, { waitUntil: 'networkidle2' });
+## Role Overview
 
-  // Try common auth paths
-  const candidatePaths = ['auth/signin', 'login', 'auth/login'];
-  let atLogin = false;
-  for (const p of candidatePaths) {
-    if (page.url().includes(p)) {
-      atLogin = true;
-      break;
-    }
-  }
-  if (!atLogin) {
-    for (const p of candidatePaths) {
-      await page.goto(new URL(p, baseUrl).toString(), { waitUntil: 'networkidle2' });
-      if (page.url().includes(p)) {
-        atLogin = true;
-        break;
-      }
-    }
-  }
+| Role | Can Do | Cannot Do | Access |
+|------|--------|-----------|--------|
+| **End User** | Create tickets, view own tickets, add comments, reopen closed tickets | Assign tickets, change status (except reopen), view other users' tickets | My Tickets, Reports |
+| **Support Staff** | View assigned tickets, update status, add comments, resolve tickets | Assign tickets to others, view all tickets, manage users | Assigned Tickets, Reports |
+| **Support Manager** | View all tickets, assign tickets, manage staff, view team performance | Manage users, system settings | All Tickets, Assigned Tickets, New Tickets, Reports |
+| **Administrator** | Everything + manage users, system settings, view all data | None | All features + Administration panel |
 
-  // Attempt a generic login form fill
-  // These selectors may need adjusting depending on the staging UI
-  // Try common input names and placeholders
-  const emailSelectors = ['input[name="email"]', 'input[type="email"]', 'input[autocomplete="email"]'];
-  const passwordSelectors = ['input[name="password"]', 'input[type="password"]', 'input[autocomplete="current-password"]'];
-  const loginButtonSelectors = ['button[type="submit"]', 'button[name="submit"]', 'form button'];
+---
 
-  // Fill email
-  for (const sel of emailSelectors) {
-    const el = await page.$(sel);
-    if (el) {
-      await el.click({ clickCount: 3 });
-      await el.type(email);
-      break;
-    }
-  }
-  // Fill password
-  for (const sel of passwordSelectors) {
-    const el = await page.$(sel);
-    if (el) {
-      await el.click({ clickCount: 3 });
-      await el.type(password);
-      break;
-    }
-  }
-  // Click submit
-  let clicked = false;
-  for (const sel of loginButtonSelectors) {
-    const el = await page.$(sel);
-    if (el) {
-      await el.click();
-      clicked = true;
-      break;
-    }
-  }
-  if (!clicked) {
-    // Fallback: try submitting the form by Enter
-    await page.keyboard.press('Enter');
-  }
+## Creating Tickets
 
-  // Do not block on navigation; some auth flows don't trigger a full nav
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-}
+### Who Can Create Tickets
+- **End Users**: Can create tickets
+- **Other Roles**: Cannot create tickets (buttons hidden)
 
-async function capture() {
-  const baseUrl = process.env.STAGING_URL;
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPassword = process.env.ADMIN_PASSWORD;
+### How to Create a Ticket
+1. Click **"Create Ticket"** button
+2. Fill in:
+   - **Title**: Brief problem description
+   - **Description**: Detailed explanation
+   - **Category**: Hardware, Software, Network, Access, Other
+   - **Priority**: Low, Medium, High, Critical
+   - **Impact**: Minor, Moderate, Major, Critical
+3. Add attachments (optional)
+4. Click **"Create Ticket"**
 
-  if (!baseUrl || !adminEmail || !adminPassword) {
-    throw new Error('Missing environment variables. Required: STAGING_URL, ADMIN_EMAIL, ADMIN_PASSWORD');
-  }
+> Tip: Some categories will show additional fields (see [Custom Fields](#custom-fields)).
 
-  const outDir = path.resolve(process.cwd(), 'docs', 'screens');
-  await ensureDir(outDir);
+#### Screen
+![Create Ticket Form](docs/screens/create-ticket.png)
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    defaultViewport: { width: 1440, height: 900 },
-    ignoreHTTPSErrors: true,
-    args: [
-      '--ignore-certificate-errors',
-      '--ignore-certificate-errors-spki-list',
-    ],
-  });
-  const page = await browser.newPage();
-  await page.setDefaultNavigationTimeout(60000);
-  await page.setDefaultTimeout(60000);
+### Ticket Creation Flow
+```mermaid
+flowchart TD
+    A[Click Create Ticket] --> B[Fill Details]
+    B --> C[Set Priority & Impact]
+    C --> D[Add Attachments - Optional]
+    D --> E[Submit Ticket]
+    E --> F[Ticket Created]
+```
 
-  try {
-    // Attempt to bypass common Chrome/Ngrok interstitials if present
-    try {
-      await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
-      const details = await page.$('#details-button');
-      if (details) {
-        await details.click();
-        const proceed = await page.$('#proceed-link');
-        if (proceed) {
-          await proceed.click();
-          await new Promise(r => setTimeout(r, 800));
-        }
-      }
-      await bypassNgrokInterstitial(page);
-    } catch (_) {}
+---
 
-    await login(page, baseUrl, adminEmail, adminPassword);
+## Managing Tickets
 
-    // 1) Create Ticket
-    try {
-      await page.goto(new URL('/tickets/create', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      // Try selecting a category to reveal custom fields
-      const categorySelectors = ['select[name="category"]', 'select#category'];
-      for (const sel of categorySelectors) {
-        if (await page.$(sel)) {
-          await page.select(sel, (await page.$eval(sel, el => el.options[1]?.value)) || '');
-          break;
-        }
-      }
-      await saveShot(page, path.join(outDir, 'create-ticket.png'));
-    } catch (e) {
-      console.warn('Create ticket capture failed:', e.message);
-    }
+### Viewing Tickets
+- **End User**: "My Tickets" - only tickets you created
+- **Support Staff**: "Assigned Tickets" - tickets assigned to you
+- **Support Manager**: "All Tickets", "Assigned Tickets", "New Tickets"
+- **Administrator**: "All Tickets" + administration features
 
-    // 2) Ticket List
-    try {
-      await page.goto(new URL('/tickets', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      await saveShot(page, path.join(outDir, 'ticket-list.png'));
-    } catch (e) {
-      console.warn('Ticket list capture failed:', e.message);
-    }
+### Ticket Actions by Role
 
-    // 3) Ticket Details with Comments (open first ticket if available)
-    try {
-      // Ensure we are on tickets page
-      await page.goto(new URL('/tickets', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      const firstTicketLink = await page.$('a[href^="/tickets/"]');
-      if (firstTicketLink) {
-        await firstTicketLink.click();
-  try {
-    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
-  } catch (_) {
-    // If no navigation occurred, proceed; some auth flows update content without a full nav
-  }
-        await bypassNgrokInterstitial(page);
-        await saveShot(page, path.join(outDir, 'ticket-comments.png'));
-      }
-    } catch (e) {
-      console.warn('Ticket comments capture failed:', e.message);
-    }
+| Action | End User | Support Staff | Manager | Admin |
+|--------|----------|---------------|---------|-------|
+| View Tickets | Own only | Assigned only | All | All |
+| Edit Tickets | NEW status only | Assigned only | All | All |
+| Update Status | Reopen only | Assigned only | All | All |
+| Assign Tickets | No | No | Yes | Yes |
+| Delete Tickets | No | No | Yes | Yes |
 
-    // 4) Reports
-    try {
-      await page.goto(new URL('/reports', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      await saveShot(page, path.join(outDir, 'reports.png'));
-    } catch (e) {
-      console.warn('Reports capture failed:', e.message);
-    }
+### Searching & Filtering
+- **Search Bar**: Type keywords to find tickets
+- **Advanced Search**: More detailed filters
+- **Simple Filters**: Quick status, priority, category filters
 
-    // 5) Theme Settings (Admin)
-    try {
-      await page.goto(new URL('/admin/theme-settings', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      await saveShot(page, path.join(outDir, 'theme-settings.png'));
-    } catch (e) {
-      console.warn('Theme settings capture failed:', e.message);
-    }
+#### Screen
+![Ticket List](docs/screens/ticket-list.png)
 
-    // 6) Custom Fields (try again on create page after category selection)
-    try {
-      await page.goto(new URL('/tickets/create', baseUrl).toString(), { waitUntil: 'networkidle2' });
-      await bypassNgrokInterstitial(page);
-      await saveShot(page, path.join(outDir, 'custom-fields.png'));
-    } catch (e) {
-      console.warn('Custom fields capture failed:', e.message);
-    }
+---
 
-  } finally {
-    await browser.close();
-  }
-}
+## Comments
 
-capture().catch(err => {
-  // eslint-disable-next-line no-console
-  console.error(err);
-  process.exit(1);
-});
+### Adding and Managing Comments
+- Use the **Comments** panel on a ticket to add updates or ask questions.
+- Toggle **Internal** if you want the comment visible only to support staff.
+- Mention teammates with `@name` for clarity (if enabled).
 
+#### Quick Steps
+1. Open a ticket
+2. Scroll to **Comments**
+3. Type your message
+4. Optional: toggle **Internal**
+5. Click **Add Comment**
 
+#### Screen
+![Comments Panel](docs/screens/ticket-comments.png)
+
+#### Comment Lifecycle
+```mermaid
+flowchart TD
+    A[Open Ticket] --> B[Write Comment]
+    B --> C{Internal?}
+    C -- Yes --> D[Visible to Support Team]
+    C -- No --> E[Visible to Requester + Team]
+    D --> F[Saved]
+    E --> F[Saved]
+```
+
+---
+
+## Custom Fields
+
+Custom fields let administrators extend the ticket form per category (e.g., Asset Tag for Hardware).
+
+### How Users See Custom Fields
+- When you choose a **Category**, any configured custom fields appear automatically.
+- Supported types include text, number, boolean, select (varies by setup).
+
+#### Screen
+![Custom Fields on Ticket](docs/screens/custom-fields.png)
+
+### Admin: Creating Custom Fields (Summary)
+1. Go to **Administration › Custom Fields**
+2. Click **Create Field**
+3. Choose **Category** and **Field Type**
+4. Set **Label**, **Key**, and **Validation**
+5. Click **Save**
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin: Create Custom Field] --> B[Select Category]
+    B --> C[Choose Field Type]
+    C --> D[Configure Label/Key/Validation]
+    D --> E[Save]
+    E --> F[Users See Field on Ticket Form]
+```
+
+---
+
+## Administration: Theme & Branding
+
+### Theme Settings
+- Navigate to **Administration › Theme Settings**
+- Update the **Primary Color** to match your brand
+- Changes apply across headers, buttons, and highlights
+
+#### Screen
+![Theme Settings](docs/screens/theme-settings.png)
+
+### Logo & Favicon
+- In **Theme Settings**, upload your **Logo** (and optionally a **Favicon**)
+- Supported formats: PNG, JPG, SVG (recommended: transparent background)
+- After saving, the logo updates in the app header and login page
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin Opens Theme Settings] --> B[Upload Logo/Favicon]
+    B --> C[Preview]
+    C --> D[Save]
+    D --> E[Branding Applied Site-wide]
+```
+
+---
+
+## Workflows
+
+Workflows define the allowed ticket states and transitions for your organization.
+
+### Who Can Manage Workflows
+- **Administrator**: Create, edit, activate/deactivate, set default
+- **Support Manager**: Can view (editing may be restricted depending on your setup)
+
+### Open the Workflow Manager
+- Go to **Administration › Workflows**
+
+### Create or Edit a Workflow
+1. Click **Create Workflow** (or edit an existing one)
+2. Enter **Name** and optional **Description**
+3. Toggle **Set as Default** to make it the system default
+4. Use the **Workflow Editor** to:
+   - Add states (nodes), set labels and colors
+   - Connect states to add transitions (arrows)
+   - Click an arrow to configure allowed **Roles**, **Conditions**, and **Actions**
+5. Click **Save Workflow**
+
+#### Screen
+![Workflow Editor](docs/screens/workflow-editor.png)
+
+### Managing Workflows in the List
+- **Set as Default**: Marks a workflow used by new tickets by default
+- **Activate/Deactivate**: Control availability for assignment
+- **Edit/Delete**: Update or remove a workflow (cannot delete if in use)
+
+#### Flow
+```mermaid
+flowchart TD
+    A[Admin Opens Workflows] --> B[Create or Edit]
+    B --> C[Design States & Transitions]
+    C --> D[Configure Roles/Conditions/Actions]
+    D --> E[Save]
+    E --> F[Activate &/or Set Default]
+```
+
+### Notes
+- The **default** workflow applies to new tickets unless a specific workflow is assigned by category/project (if configured).
+- Deleting a workflow that is in use by tickets is blocked; deactivate instead.
+
+---
+
+## Ticket Status Guide
+
+### Status Meanings
+| Status | Color | Meaning |
+|--------|-------|---------|
+| **NEW** | Blue | Just created, waiting for review |
+| **OPEN** | Green | Support staff is working on it |
+| **IN_PROGRESS** | Yellow | Actively being worked on |
+| **ON_HOLD** | Orange | Paused (waiting for info/parts) |
+| **RESOLVED** | Gray | Fixed, waiting for confirmation |
+| **CLOSED** | Dark Gray | Completely finished |
+| **REOPENED** | Purple | Problem came back |
+
+### Status Flow
+```mermaid
+flowchart LR
+    A[NEW] --> B[OPEN]
+    B --> C[IN_PROGRESS]
+    C --> D[RESOLVED]
+    D --> E[CLOSED]
+    C --> F[ON_HOLD]
+    F --> C
+    E --> G[REOPENED]
+    G --> B
+```
+
+### Complete Ticket Lifecycle
+```mermaid
+flowchart TD
+    Start[End User Creates Ticket] --> New[Status: NEW]
+    
+    New -->|Support Manager Reviews & Assigns| Open[Status: OPEN]
+    
+    Open -->|Support Staff Starts Work| InProgress[Status: IN PROGRESS]
+    
+    InProgress -->|Roadblock Found| OnHold[Status: ON HOLD]
+    InProgress -->|Issue Resolved| Resolved[Status: RESOLVED]
+    
+    OnHold -->|Roadblock Cleared| InProgress
+    
+    Resolved -->|End User Confirms| Closed[Status: CLOSED]
+    Resolved -->|Auto-close After Time| Closed
+    
+    Closed -->|End User Reports Issue Again| Reopened[Status: REOPENED]
+    
+    Reopened -->|Auto-assigned to Previous Staff| Open
+    
+```
+
+### Who Can Change Status
+- **End Users**: Can only reopen closed tickets
+- **Support Staff**: Can change status of assigned tickets
+- **Managers/Admins**: Can change status of any ticket
+
+---
+
+## Reports & Analytics
+
+### Available Reports by Role
+
+#### End User Reports
+- **Summary Cards**: Total, Open, Resolved, Closed tickets
+- **Filters**: Date range, status, priority, category, month-year
+- **Export**: Excel format
+
+#### Support Staff Reports
+- **Summary Cards**: Assigned tickets, resolution time, SLA performance
+- **Team Performance**: Personal metrics
+- **Breakdown Tables**: By category, status, priority, impact, urgency
+
+#### Support Manager Reports
+- **Summary Cards**: All team metrics
+- **Team Performance**: Staff performance metrics
+- **Breakdown Tables**: All ticket breakdowns
+- **SLA Performance**: Team SLA metrics
+
+#### Administrator Reports
+- **User Management**: User statistics, activity logs
+- **System Analytics**: Login activity, audit trails
+- **Security & Compliance**: Security events, system changes
+
+### Exporting Reports
+1. Set your filters
+2. Click **"Export"** button
+3. Choose Excel format
+4. Download your report
+
+#### Screen
+![Reports Dashboard](docs/screens/reports.png)
+
+---
+
+## Coming Soon
+
+These features are in final stages and may appear in your environment shortly. Usage will be as follows:
+
+### Attachments
+- Add files to tickets via **Attachments** section
+- Supported: images, PDFs, docs (size limits may apply)
+
+```mermaid
+flowchart TD
+    A[Open Ticket Form] --> B[Click Add Attachment]
+    B --> C[Select File]
+    C --> D[Upload]
+    D --> E[Attachment Linked to Ticket]
+```
+
+### Email Notifications
+- Automatic emails for ticket created, status changes, and comments
+- Admins can adjust templates in **Administration › Email Templates**
+
+```mermaid
+flowchart TD
+    A[Trigger: Ticket/Comment/Status] --> B[Generate Email]
+    B --> C[Apply Template]
+    C --> D[Send Email to Recipients]
+```
+
+### User Signups
+- Users will be able to self-register from the **Sign In** page when enabled
+
+```mermaid
+flowchart TD
+    A[Open Sign In] --> B[Click Sign Up]
+    B --> C[Fill Details]
+    C --> D[Submit]
+    D --> E[Account Created / Awaiting Approval]
+```
+
+---
+
+## Quick Reference
+
+### Priority Levels
+- 🟢 **LOW** - Can wait a few days
+- 🟡 **MEDIUM** - 1-2 business days
+- 🟠 **HIGH** - Needs attention today
+- 🔴 **CRITICAL** - Emergency, immediate attention
+
+### Common Actions by Role
+
+| Role | Actions |
+|------|---------|
+| **End User** | Create tickets, View own tickets, Add comments, Reopen closed tickets, Export own ticket reports |
+| **Support Staff** | View assigned tickets, Update ticket status, Add comments, Resolve tickets, Export assigned ticket reports |
+| **Support Manager** | View all tickets, Assign tickets, Manage team performance, Export team reports, View new tickets requiring assignment |
+| **Administrator** | All above actions, Manage users, System settings, View all system data, Export comprehensive reports |
+
+### Navigation Menu by Role
+
+| Role | Menu Items |
+|------|------------|
+| **End User** | My Tickets, Reports |
+| **Support Staff** | Assigned Tickets, Reports |
+| **Support Manager** | All Tickets, Assigned Tickets, New Tickets, Reports |
+| **Administrator** | All Tickets, Assigned Tickets, New Tickets, Reports, Administration |
+
+### Keyboard Shortcuts
+- **Ctrl + L**: Open chat (if available)
+- **Ctrl + K**: Quick search
+- **Esc**: Close modals
+
+---
+
+*This guide covers the main features for all user roles in the NTG-Ticket system. For additional help, contact your system administrator.*
