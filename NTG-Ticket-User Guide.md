@@ -287,13 +287,13 @@ flowchart LR
     F --> C
     E --> G[REOPENED]
     G --> B
-    style A fill:#EAB1AE
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
+    style A fill:#E6F4EA
+    style B fill:#E8F0FE
+    style C fill:#FFF4E5
+    style D fill:#E0F7FA
     style E fill:#F3E5F5
-    style F fill:#E0F7FA
-    style G fill:#F6D1CF
+    style F fill:#F4F8E8
+    style G fill:#F5F5F5
 ```
 
 ### Complete Ticket Lifecycle
@@ -317,14 +317,14 @@ flowchart TD
     
     Reopened -->|Auto-assigned to Previous Staff| Open
     
-    style Start fill:#F6D1CF
-    style New fill:#F6D1CF
-    style Open fill:#E6F4EA
-    style InProgress fill:#E8F0FE
-    style OnHold fill:#FFF4E5
-    style Resolved fill:#F3E5F5
-    style Closed fill:#E0F7FA
-    style Reopened fill:#F6D1CF
+    style Start fill:#E6F4EA
+    style New fill:#E8F0FE
+    style Open fill:#FFF4E5
+    style InProgress fill:#E0F7FA
+    style OnHold fill:#F3E5F5
+    style Resolved fill:#F4F8E8
+    style Closed fill:#F5F5F5
+    style Reopened fill:#E6F4EA
 ```
 
 ---
