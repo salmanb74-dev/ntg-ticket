@@ -76,13 +76,13 @@ flowchart TD
     D --> E[Fill Custom Fields if Any]
     E --> F[Submit Ticket]
     F --> G[Ticket Created]
-    style A fill:#EAB1AE
+    style A fill:#F6D1CF
     style B fill:#E6F4EA
     style C fill:#E8F0FE
     style D fill:#FFF4E5
     style E fill:#F3E5F5
     style F fill:#E0F7FA
-    style G fill:#EAB1AE
+    style G fill:#F6D1CF
 ```
 
 ---
@@ -131,7 +131,7 @@ flowchart TD
     C -- No --> E[Visible to Requester + Team]
     D --> F[Saved]
     E --> F[Saved]
-    style A fill:#EAB1AE
+    style A fill:#F6D1CF
     style B fill:#E6F4EA
     style C fill:#E8F0FE
     style D fill:#FFF4E5
@@ -143,7 +143,7 @@ flowchart TD
 
 ## Custom Fields
 
-Custom fields are global fields defined by administrators and shown on every ticket (new and existing) once created.
+Custom fields are global fields defined by administrators and shown on the ticket form once created.
 
 ### How Users See Custom Fields
 - Custom fields always appear on the ticket form when defined by the administrator (not tied to category)
@@ -167,7 +167,7 @@ flowchart TD
     C --> D[Configure Label/Key/Validation]
     D --> E[Save]
     E --> F[Users See Field on Ticket Form]
-    style A fill:#EAB1AE
+    style A fill:#F6D1CF
     style B fill:#E6F4EA
     style C fill:#E8F0FE
     style D fill:#FFF4E5
@@ -199,7 +199,7 @@ flowchart TD
     B --> C[Preview]
     C --> D[Save]
     D --> E[Branding Applied Site-wide]
-    style A fill:#EAB1AE
+    style A fill:#F6D1CF
     style B fill:#E6F4EA
     style C fill:#E8F0FE
     style D fill:#FFF4E5
@@ -252,7 +252,7 @@ flowchart TD
     style C fill:#E8F0FE
     style D fill:#FFF4E5
     style E fill:#F3E5F5
-    style F fill:#EAB1AE
+    style F fill:#F6D1CF
 ```
 
 ### Notes
@@ -291,7 +291,7 @@ flowchart LR
     style D fill:#FFF4E5
     style E fill:#F3E5F5
     style F fill:#E0F7FA
-    style G fill:#EAB1AE
+    style G fill:#F6D1CF
 ```
 
 ### Complete Ticket Lifecycle
@@ -315,14 +315,14 @@ flowchart TD
     
     Reopened -->|Auto-assigned to Previous Staff| Open
     
-    style Start fill:#EAB1AE
-    style New fill:#EAB1AE
+    style Start fill:#F6D1CF
+    style New fill:#F6D1CF
     style Open fill:#E6F4EA
     style InProgress fill:#E8F0FE
     style OnHold fill:#FFF4E5
     style Resolved fill:#F3E5F5
     style Closed fill:#E0F7FA
-    style Reopened fill:#EAB1AE
+    style Reopened fill:#F6D1CF
 ```
 
 ---
