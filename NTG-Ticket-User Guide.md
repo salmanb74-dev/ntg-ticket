@@ -125,18 +125,18 @@ All users can view all tickets in the system.
 #### Comment Lifecycle
 ```mermaid
 flowchart TD
-    A[Open Ticket] --> B[Write Comment]
+    A[Open] --> B[Compose]
     B --> C{Internal?}
-    C -- Yes --> D[Visible to Support Team]
-    C -- No --> E[Visible to Requester + Team]
+    C -- Yes --> D[Staff Only]
+    C -- No --> E[Requester + Team]
     D --> F[Saved]
     E --> F[Saved]
-    style A fill:#F6D1CF
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
-    style E fill:#F3E5F5
-    style F fill:#E0F7FA
+    style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style F fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ---
@@ -162,17 +162,17 @@ Custom fields are global fields defined by administrators and shown on the ticke
 #### Flow
 ```mermaid
 flowchart TD
-    A[Admin: Create Custom Field] --> B[Select Category]
-    B --> C[Choose Field Type]
-    C --> D[Configure Label/Key/Validation]
+    A[Create Field] --> B[Type]
+    B --> C[Label/Key]
+    C --> D[Validation]
     D --> E[Save]
-    E --> F[Users See Field on Ticket Form]
-    style A fill:#F6D1CF
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
-    style E fill:#F3E5F5
-    style F fill:#E0F7FA
+    E --> F[Visible on Form]
+    style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style F fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ---
@@ -195,15 +195,15 @@ flowchart TD
 #### Flow
 ```mermaid
 flowchart TD
-    A[Admin Opens Theme Settings] --> B[Upload Logo]
+    A[Open Theme] --> B[Upload Logo]
     B --> C[Preview]
     C --> D[Save]
-    D --> E[Branding Applied Site-wide]
-    style A fill:#F6D1CF
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
-    style E fill:#EAB1AE
+    D --> E[Applied Site‑wide]
+    style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ---
@@ -242,17 +242,19 @@ Workflows define the allowed ticket states and transitions for your organization
 #### Flow
 ```mermaid
 flowchart TD
-    A[Admin Opens Workflows] --> B[Create or Edit]
-    B --> C[Design States & Transitions]
-    C --> D[Configure Roles/Conditions/Actions]
-    D --> E[Save]
-    E --> F[Activate &/or Set Default]
-    style A fill:#EAB1AE
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
-    style E fill:#F3E5F5
-    style F fill:#F6D1CF
+    A[Open Workflows] --> B[Create/Edit]
+    B --> C[Design States]
+    C --> D[Set Transitions]
+    D --> E[Roles/Conds/Actions]
+    E --> F[Save]
+    F --> G[Activate/Default]
+    style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style F fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
+    style G fill:#F4F8E8,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ### Notes
