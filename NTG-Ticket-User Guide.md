@@ -17,6 +17,8 @@
 
 ## Getting Started
 
+> This guide describes the system’s default configuration (including the default workflow). Your administrator may customize workflows and permissions; if so, behavior can differ from what’s shown here.
+
 ### Quick Start Guide
 1. **Login** with your email and password
 2. **Select your role** if you have multiple roles
@@ -33,8 +35,8 @@ A help desk system for reporting technical issues, tracking progress, and commun
 | Role | Can Do | Cannot Do | Access |
 |------|--------|-----------|--------|
 | **End User** | Create tickets, view all tickets, add comments, reopen closed tickets | Assign tickets, change status (except reopen), manage users, admin features | My Tickets, Reports |
-| **Support Staff** | View all tickets, update status on assigned tickets, add comments, resolve assigned tickets | Assign tickets to others, manage users, admin features | Assigned Tickets, Reports |
-| **Support Manager** | View all tickets, assign tickets, manage staff, view team performance | Manage users, system settings | All Tickets, Assigned Tickets, New Tickets, Reports |
+| **Support Staff** | View all tickets, update status on assigned tickets, add comments, resolve assigned tickets | Assign tickets to others, manage users, admin features | All Tickets, Reports |
+| **Support Manager** | View all tickets, assign tickets, manage staff, view team performance | Manage users, system settings | All Tickets, New Tickets, Reports |
 | **Administrator** | Manage users, system settings, custom fields, categories, workflows, theme settings, view all system data | Create tickets, assign tickets, change ticket status | All Tickets, Reports, Administration |
 
 > **Note**: All roles can view all tickets in the system. The distinction lies in what actions each role can perform on those tickets. Administrators focus solely on system administration and cannot create or act on tickets.
@@ -75,6 +77,11 @@ flowchart TD
     E --> F[Submit Ticket]
     F --> G[Ticket Created]
     style A fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
+    style E fill:#F3E5F5
+    style F fill:#E0F7FA
     style G fill:#EAB1AE
 ```
 
@@ -83,12 +90,10 @@ flowchart TD
 ## Managing Tickets
 
 ### Viewing Tickets
-All users can view all tickets in the system. Navigation views vary by role for convenience:
+All users can view all tickets in the system.
 
-- **End User**: "My Tickets" view (filters to show tickets created by you)
-- **Support Staff**: "Assigned Tickets" view (filters to show tickets assigned to you)
-- **Support Manager**: "All Tickets", "Assigned Tickets", "New Tickets" views
-- **Administrator**: "All Tickets" + administration panel access
+- **All Tickets**: full ticket list
+- **My Tickets**: tickets created by you OR assigned to you
 
 ### Searching & Filtering
 - **Search Bar**: Type keywords to find tickets across all visible tickets
@@ -127,18 +132,22 @@ flowchart TD
     D --> F[Saved]
     E --> F[Saved]
     style A fill:#EAB1AE
-    style F fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
+    style E fill:#F3E5F5
+    style F fill:#E0F7FA
 ```
 
 ---
 
 ## Custom Fields
 
-Custom fields let administrators extend the ticket form per category (e.g., Asset Tag for Hardware).
+Custom fields are global fields defined by administrators and shown on every ticket (new and existing) once created.
 
 ### How Users See Custom Fields
-- When you choose a **Category**, any configured custom fields appear automatically
-- Supported types include text, number, boolean, select (varies by administrator setup)
+- Custom fields always appear on the ticket form when defined by the administrator (not tied to category)
+- Field types include text, number, boolean, and picklists (select)
 
 #### Screen
 ![Custom Fields on Ticket](docs/screens/custom-fields.png)
@@ -159,7 +168,11 @@ flowchart TD
     D --> E[Save]
     E --> F[Users See Field on Ticket Form]
     style A fill:#EAB1AE
-    style F fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
+    style E fill:#F3E5F5
+    style F fill:#E0F7FA
 ```
 
 ---
@@ -187,6 +200,9 @@ flowchart TD
     C --> D[Save]
     D --> E[Branding Applied Site-wide]
     style A fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
     style E fill:#EAB1AE
 ```
 
@@ -194,7 +210,7 @@ flowchart TD
 
 ## Workflows
 
-> **Important**: The workflow information in this guide describes the **default system workflow**, not customized workflows created by administrators. Your organization may use a custom workflow that differs from the default.
+> **Important**: This entire guide reflects the **default system workflow** and default permissions. An administrator can define custom workflows that may, for example, allow Support Staff to create tickets.
 
 Workflows define the allowed ticket states and transitions for your organization.
 
@@ -232,6 +248,10 @@ flowchart TD
     D --> E[Save]
     E --> F[Activate &/or Set Default]
     style A fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
+    style E fill:#F3E5F5
     style F fill:#EAB1AE
 ```
 
@@ -266,6 +286,11 @@ flowchart LR
     E --> G[REOPENED]
     G --> B
     style A fill:#EAB1AE
+    style B fill:#E6F4EA
+    style C fill:#E8F0FE
+    style D fill:#FFF4E5
+    style E fill:#F3E5F5
+    style F fill:#E0F7FA
     style G fill:#EAB1AE
 ```
 
@@ -292,6 +317,11 @@ flowchart TD
     
     style Start fill:#EAB1AE
     style New fill:#EAB1AE
+    style Open fill:#E6F4EA
+    style InProgress fill:#E8F0FE
+    style OnHold fill:#FFF4E5
+    style Resolved fill:#F3E5F5
+    style Closed fill:#E0F7FA
     style Reopened fill:#EAB1AE
 ```
 
