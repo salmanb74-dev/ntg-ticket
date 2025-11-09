@@ -64,7 +64,7 @@ A help desk system for reporting technical issues, tracking progress, and commun
 
 > Tip: Custom fields appear on all tickets when defined by the administrator (see [Custom Fields](#custom-fields)).
 
-#### Screen
+#### Create Ticket Screen
 ![Create Ticket Form](docs/screens/create-ticket.png)
 
 ### Ticket Creation Flow
@@ -100,7 +100,7 @@ All users can view all tickets in the system.
 - **Advanced Search**: More detailed filters
 - **Simple Filters**: Quick status, priority, category filters
 
-#### Screen
+#### Ticket List View
 ![Ticket List](docs/screens/ticket-list.png)
 
 ---
@@ -119,7 +119,7 @@ All users can view all tickets in the system.
 4. Optional: toggle **Internal** for staff-only visibility
 5. Click **Add Comment**
 
-#### Screen
+#### Comments Panel
 ![Comments Panel](docs/screens/ticket-comments.png)
 
 #### Comment Lifecycle
@@ -149,7 +149,7 @@ Custom fields are global fields defined by administrators and shown on the ticke
 - Custom fields always appear on the ticket form when defined by the administrator (not tied to category)
 - Field types include text, number, boolean, and picklists (select)
 
-#### Screen
+#### Custom Fields on Ticket Form
 ![Custom Fields on Ticket](docs/screens/custom-fields.png)
 
 ### Admin: Creating Custom Fields (Summary)
@@ -184,7 +184,7 @@ flowchart TD
 - Update the **Primary Color** to match your brand (NTG Clarity uses red theme)
 - Changes apply across headers, buttons, and highlights throughout the application
 
-#### Screen
+#### Theme Settings Screen
 ![Theme Settings](docs/screens/theme-settings.png)
 
 ### Logo
@@ -231,7 +231,7 @@ Workflows define the allowed ticket states and transitions for your organization
    - Click an arrow to configure allowed **Roles**, **Conditions**, and **Actions**
 5. Click **Save Workflow**
 
-#### Screen
+#### Workflow Editor Screen
 ![Workflow Editor](docs/screens/workflow-editor.png)
 
 ### Managing Workflows in the List
@@ -357,7 +357,7 @@ All roles can access reports with data scoped to their permissions and export re
 3. Choose **PDF** or **Excel** format
 4. Download your report
 
-#### Screen
+#### Reports Dashboard
 ![Reports Dashboard](docs/screens/reports.png)
 
 ---
