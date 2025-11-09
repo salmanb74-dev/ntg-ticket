@@ -59,10 +59,10 @@ A help desk system for reporting technical issues, tracking progress, and commun
    - **Priority**: Low, Medium, High, Critical
    - **Impact**: Minor, Moderate, Major, Critical
 3. Add attachments (optional)
-4. Fill any custom fields that appear based on category (see [Custom Fields](#custom-fields))
+4. Fill any custom fields that appear (see [Custom Fields](#custom-fields))
 5. Click **"Create Ticket"**
 
-> Tip: Some categories will show additional fields (see [Custom Fields](#custom-fields)).
+> Tip: Custom fields appear on all tickets when defined by the administrator (see [Custom Fields](#custom-fields)).
 
 #### Screen
 ![Create Ticket Form](docs/screens/create-ticket.png)
@@ -70,19 +70,19 @@ A help desk system for reporting technical issues, tracking progress, and commun
 ### Ticket Creation Flow
 ```mermaid
 flowchart TD
-    A[Click Create Ticket] --> B[Fill Details]
-    B --> C[Set Priority & Impact]
-    C --> D[Add Attachments - Optional]
-    D --> E[Fill Custom Fields if Any]
-    E --> F[Submit Ticket]
-    F --> G[Ticket Created]
-    style A fill:#F6D1CF
-    style B fill:#E6F4EA
-    style C fill:#E8F0FE
-    style D fill:#FFF4E5
-    style E fill:#F3E5F5
-    style F fill:#E0F7FA
-    style G fill:#F6D1CF
+    A[Start] --> B[Details]
+    B --> C[Priority/Impact]
+    C --> D[Attachments]
+    D --> E[Custom Fields]
+    E --> F[Submit]
+    F --> G[Created]
+    style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style F fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
+    style G fill:#F4F8E8,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ---
@@ -155,7 +155,7 @@ Custom fields are global fields defined by administrators and shown on the ticke
 ### Admin: Creating Custom Fields (Summary)
 1. Go to **Administration › Custom Fields**
 2. Click **Create Field**
-3. Choose **Category** and **Field Type**
+3. Choose **Field Type** (text, number, boolean, select/picklist)
 4. Set **Label**, **Key**, and **Validation**
 5. Click **Save**
 
@@ -287,44 +287,36 @@ flowchart LR
     F --> C
     E --> G[REOPENED]
     G --> B
-    style A fill:#E6F4EA
-    style B fill:#E8F0FE
-    style C fill:#FFF4E5
-    style D fill:#E0F7FA
-    style E fill:#F3E5F5
-    style F fill:#F4F8E8
-    style G fill:#F5F5F5
+    style A fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style B fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style C fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style D fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
+    style E fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style F fill:#F4F8E8,stroke:#D6D6D6,stroke-width:1px
+    style G fill:#F5F5F5,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ### Complete Ticket Lifecycle
 ```mermaid
 flowchart TD
-    Start[End User Creates Ticket] --> New[Status: NEW]
-    
-    New -->|Support Manager Reviews & Assigns| Open[Status: OPEN]
-    
-    Open -->|Support Staff Starts Work| InProgress[Status: IN PROGRESS]
-    
-    InProgress -->|Roadblock Found| OnHold[Status: ON HOLD]
-    InProgress -->|Issue Resolved| Resolved[Status: RESOLVED]
-    
-    OnHold -->|Roadblock Cleared| InProgress
-    
-    Resolved -->|End User Confirms| Closed[Status: CLOSED]
-    Resolved -->|Auto-close After Time| Closed
-    
-    Closed -->|End User Reports Issue Again| Reopened[Status: REOPENED]
-    
-    Reopened -->|Auto-assigned to Previous Staff| Open
-    
-    style Start fill:#E6F4EA
-    style New fill:#E8F0FE
-    style Open fill:#FFF4E5
-    style InProgress fill:#E0F7FA
-    style OnHold fill:#F3E5F5
-    style Resolved fill:#F4F8E8
-    style Closed fill:#F5F5F5
-    style Reopened fill:#E6F4EA
+    Start[Create] --> New[NEW]
+    New -->|Manager Assigns| Open[OPEN]
+    Open -->|Work Starts| InProgress[IN PROGRESS]
+    InProgress -->|Roadblock| OnHold[ON HOLD]
+    InProgress -->|Resolved| Resolved[RESOLVED]
+    OnHold -->|Unblocked| InProgress
+    Resolved -->|User Confirms| Closed[CLOSED]
+    Resolved -->|Auto-close| Closed
+    Closed -->|Issue Returns| Reopened[REOPENED]
+    Reopened -->|Auto-assign| Open
+    style Start fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
+    style New fill:#E8F0FE,stroke:#D6D6D6,stroke-width:1px
+    style Open fill:#FFF4E5,stroke:#D6D6D6,stroke-width:1px
+    style InProgress fill:#E0F7FA,stroke:#D6D6D6,stroke-width:1px
+    style OnHold fill:#F3E5F5,stroke:#D6D6D6,stroke-width:1px
+    style Resolved fill:#F4F8E8,stroke:#D6D6D6,stroke-width:1px
+    style Closed fill:#F5F5F5,stroke:#D6D6D6,stroke-width:1px
+    style Reopened fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
 ```
 
 ---
