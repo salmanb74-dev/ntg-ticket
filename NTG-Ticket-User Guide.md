@@ -159,7 +159,7 @@ Custom fields are global fields defined by administrators and shown on the ticke
 4. Set **Label**, **Key**, and **Validation**
 5. Click **Save**
 
-#### Flow
+#### Custom Field Creation Flow
 ```mermaid
 flowchart TD
     A[Create Field] --> B[Type]
@@ -192,7 +192,7 @@ flowchart TD
 - Supported formats: PNG, JPG, SVG (recommended: transparent background)
 - After saving, the logo updates in the app header and login page
 
-#### Flow
+#### Theme Update Flow
 ```mermaid
 flowchart TD
     A[Open Theme] --> B[Upload Logo]
@@ -239,7 +239,7 @@ Workflows define the allowed ticket states and transitions for your organization
 - **Activate/Deactivate**: Control availability for assignment
 - **Edit/Delete**: Update or remove a workflow (cannot delete if in use)
 
-#### Flow
+#### Workflow Management Flow
 ```mermaid
 flowchart TD
     A[Open Workflows] --> B[Create/Edit]
