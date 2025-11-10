@@ -365,10 +365,10 @@ All roles can access reports with data scoped to their permissions and export re
 ## Quick Reference
 
 ### Priority Levels
-- 🟢 **LOW** - Can wait a few days
-- 🟡 **MEDIUM** - 1-2 business days
-- 🟠 **HIGH** - Needs attention today
-- 🔴 **CRITICAL** - Emergency, immediate attention
+- 🟢 **LOW** – Standard SLA: response within 8 business hours; resolution within 5 business days
+- 🟡 **MEDIUM** – Standard SLA: response within 8 business hours; resolution within 5 business days
+- 🟠 **HIGH** – Premium SLA: response within 4 business hours; resolution within 2 business days
+- 🔴 **CRITICAL** – Critical Support SLA: immediate response; resolution within 4 business hours
 
 ---
 
