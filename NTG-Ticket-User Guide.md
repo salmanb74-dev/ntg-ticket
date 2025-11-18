@@ -109,15 +109,13 @@ All users can view all tickets in the system.
 
 ### Adding and Managing Comments
 - Use the **Comments** panel on a ticket to add updates or ask questions
-- Toggle **Internal** to make the comment visible only to support staff
 - All participants in a ticket can view and add comments
 
 #### Quick Steps
 1. Open a ticket
 2. Scroll to **Comments**
 3. Type your message
-4. Optional: toggle **Internal** for staff-only visibility
-5. Click **Add Comment**
+4. Click **Add Comment**
 
 #### Comments Panel
 ![Comments Panel](docs/screens/ticket-comments.png)
@@ -126,10 +124,9 @@ All users can view all tickets in the system.
 ```mermaid
 flowchart TD
     A[Open] --> B[Compose]
-    B --> C{Internal?}
-    C -- Yes --> D[Staff Only]
-    C -- No --> E[Requester + Team]
-    D --> F[Saved]
+    B --> C[Compose Options]
+    C --> D[Attach Files]
+    D --> E[Submit]
     E --> F[Saved]
     style A fill:#F6D1CF,stroke:#D6D6D6,stroke-width:1px
     style B fill:#E6F4EA,stroke:#D6D6D6,stroke-width:1px
